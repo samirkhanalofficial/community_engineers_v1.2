@@ -13,7 +13,6 @@
 
 1. Open the terminal in desired directory.
 2. clone this git repository with the command
-
     ```git clone https://github.com/samirlure161/community_engineers_v1.2.git```
 
 ## Setup
