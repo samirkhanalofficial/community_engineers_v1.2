@@ -36,7 +36,7 @@
 
 ### App Setup
 
-1. Move to the Requireq app folder
+1. Move to the Required app folder
    + For Bloodbanks :
     ```cd .\app\bloodbank\```
    + For Clients :
@@ -84,7 +84,7 @@ eg. `git branch samir/feature/app/donateplusclient`
 ## Required Files
 
 + **Firebase Config Files**
-    Please ask for the project leader for this file. And donot share this file with anyone cause it is extremely dangarous for security of the app. and donot upload it either in github or any other platform.
+    Please ask for the project leader for this file. And donot share this file with anyone cause it is extremely dangerous for security of the app. and donot upload it either in github or any other platform.
 
 + **Database Browser (Sqlite Browser)**
     Click [here](https://sqlitebrowser.org/) to download the Database browser.
@@ -96,7 +96,7 @@ In this project we will be using python , sql and dart. Thus please refer to the
 ### Docs
 
 + Python: [python.org](https://python.org)
-+ Python Packages: [pypi.org]((https://pypi.org/))
++ Python Packages: [pypi.org](https://pypi.org/)
 + Flask: [Documentation](https://flask.palletsprojects.com/en/2.0.x/)
 + Flutter: [flutter.dev](https://flutter.dev)
 + Flutter packages: [pub.dev](https://pub.dev)
