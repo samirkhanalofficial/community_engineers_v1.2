@@ -1,0 +1,15 @@
+backend/.venv/
+google-services.json
+__pycache__/
+.vs/
+app/bloodbank/build/
+app/donateplus/build/
+.dart_tool/
+.gradle/
+.idea/
+.packages/
+Generated.xcconfig
+flutter_export_environment.sh
+ephemeral/
+.flutter-plugins-dependencies/
+.flutter-plugins/
