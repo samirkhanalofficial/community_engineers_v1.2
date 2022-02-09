@@ -23,39 +23,29 @@
 1. create a virtual environment  
     ```python -m venv .venv```
 2. if you are in windows, you have to set execution policy to unrestricted.
-
    ```set-ExecutionPolicy Unrestricted -Scope Process```
 3. After this, activate virtual environment
    + **windows** :
-
         ```.\backend\.venv\Scripts\activate.ps1```
    + **others** :
-
         ```.\backend\.venv\Scripts\activate.sh```
 4. Use this command to install all the required package
-
     ```pip install -r requirements.txt```
 5. Set enviroment variable of name `GOOGLE_APPLICATION_CREDENTIALS` with the path of the firebase admin config file (JSON) of our project.
 6. now Run this command to run backend server
-
    ```python .\backend\main.py```
 
 ### App Setup
 
 1. Move to the Requireq app folder
    + For Bloodbanks :
-
     ```cd .\app\bloodbank\```
    + For Clients :
-
     ```cd .\app\donateplus\```
-
     Place the firebase auth config file of the client app project in `<projectlocation>\app\android\app`
 2. Get required packages
-
    ```flutter pub get```
 3. Run in debug mode:
-
    ```flutter run```
 
 For more Details on Flutter builds and more refer to:
@@ -64,8 +54,7 @@ For more Details on Flutter builds and more refer to:
 ### Git Commands
 
 please do not write this symbol (<>) while using commands. directly enter the value.
-
- eg. `git branch samir/feature/app/donateplusclient`
+eg. `git branch samir/feature/app/donateplusclient`
 
 + **clone a repo**:
    `git clone <https-url-of-repo>`
@@ -85,7 +74,7 @@ please do not write this symbol (<>) while using commands. directly enter the va
   `git checkout <branchname>`
 + **Pushing branch to github**:
   `git push -u origin <branch-name>`
-    Note: Please do not push to main branch.
+  Note: Please do not push to main branch.
 + **deleting local branch**:
   `git branch -D <branch-name>`
 + **Pulling**:
