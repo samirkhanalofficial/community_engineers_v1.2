@@ -19,20 +19,22 @@
 
 ### Backend Setup
 
+open backend folder in terminal and then follow these steps:
+
 1. create a virtual environment  
     ```python -m venv .venv```
 2. if you are in windows, you have to set execution policy to unrestricted.
    ```set-ExecutionPolicy Unrestricted -Scope Process```
 3. After this, activate virtual environment
    + **windows** :
-        ```.\backend\.venv\Scripts\activate.ps1```
+        ```.\.venv\Scripts\activate.ps1```
    + **others** :
-        ```.\backend\.venv\Scripts\activate.sh```
+        ```.\.venv\Scripts\activate.sh```
 4. Use this command to install all the required package
     ```pip install -r requirements.txt```
 5. Set enviroment variable of name `GOOGLE_APPLICATION_CREDENTIALS` with the path of the firebase admin config file (JSON) of our project.
 6. now Run this command to run backend server
-   ```python .\backend\main.py```
+   ```python main.py```
 
 ### App Setup
 
