@@ -4,45 +4,47 @@
 
 ## Requirements
 
-1) **Git**
-2) **Python 3** (with pip installed)
-3) **Flutter sdk** (for app development)
-4) **Android studio** (android sdk) (for app development)
+1. **Git**
+2. **Python 3** (with pip installed)
+3. **Flutter sdk** (for app development)
+4. **Android studio** (android sdk) (for app development)
 
 ## Installation
 
-1) Open the terminal in desired directory.
-2) clone this git repository with the command
+1. Open the terminal in desired directory.
+2. clone this git repository with the command
+
     ```git clone https://github.com/samirlure161/community_engineers_v1.2.git```
 
 ## Setup
 
 ### Backend Setup
 
-1) create a virtual environment  
+1. create a virtual environment  
     ```python -m venv .venv```
-2) if you are in windows, you have to set execution policy to unrestricted.
+2. if you are in windows, you have to set execution policy to unrestricted.
    ```set-ExecutionPolicy Unrestricted -Scope Process```
-3) After this, activate virtual environment
+3. After this, activate virtual environment
    + **windows** : ```.\backend\.venv\Scripts\activate.ps1```
    + **others** : ```.\backend\.venv\Scripts\activate.sh```
-4) Use this command to install all the required package
+4. Use this command to install all the required package
     ```pip install -r requirements.txt```
-5) Set enviroment variable of name `GOOGLE_APPLICATION_CREDENTIALS` with the path of the firebase admin config file (JSON) of our project.
-6) now Run this command to run backend server
+5. Set enviroment variable of name `GOOGLE_APPLICATION_CREDENTIALS` with the path of the firebase admin config file (JSON) of our project.
+6. now Run this command to run backend server
    ```python .\backend\main.py```
 
 ### App Setup
 
-1) Move to the Requireq app folder
+1. Move to the Requireq app folder
    + For Bloodbanks :
     ```cd .\app\bloodbank\```
    + For Clients :
     ```cd .\app\donateplus\```
+
     Place the firebase auth config file of the client app project in `<projectlocation>\app\android\app`
-2) Get required packages
+2. Get required packages
    ```flutter pub get```
-3) Run in debug mode:
+3. Run in debug mode:
    ```flutter run```
 For more Details on Flutter builds and more refer to [Flutter's official Documentation](https://flutter.dev)
 
