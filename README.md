@@ -23,48 +23,75 @@
 1. create a virtual environment  
     ```python -m venv .venv```
 2. if you are in windows, you have to set execution policy to unrestricted.
+
    ```set-ExecutionPolicy Unrestricted -Scope Process```
 3. After this, activate virtual environment
-   + **windows** : ```.\backend\.venv\Scripts\activate.ps1```
-   + **others** : ```.\backend\.venv\Scripts\activate.sh```
+   + **windows** :
+
+        ```.\backend\.venv\Scripts\activate.ps1```
+   + **others** :
+
+        ```.\backend\.venv\Scripts\activate.sh```
 4. Use this command to install all the required package
+
     ```pip install -r requirements.txt```
 5. Set enviroment variable of name `GOOGLE_APPLICATION_CREDENTIALS` with the path of the firebase admin config file (JSON) of our project.
 6. now Run this command to run backend server
+
    ```python .\backend\main.py```
 
 ### App Setup
 
 1. Move to the Requireq app folder
    + For Bloodbanks :
+
     ```cd .\app\bloodbank\```
    + For Clients :
+
     ```cd .\app\donateplus\```
 
     Place the firebase auth config file of the client app project in `<projectlocation>\app\android\app`
 2. Get required packages
+
    ```flutter pub get```
 3. Run in debug mode:
+
    ```flutter run```
-For more Details on Flutter builds and more refer to [Flutter's official Documentation](https://flutter.dev)
+
+For more Details on Flutter builds and more refer to:
+[Flutter's official Documentation](https://flutter.dev)
 
 ### Git Commands
 
-please do not write this symbol (<>) while using commands. directly enter the value. eg. `git branch samir/feature/app/donateplusclient`
+please do not write this symbol (<>) while using commands. directly enter the value.
 
-+ **clone a repo**: `git clone <https-url-of-repo>`
-+ **initialize git for a project**: `git init`
-+ **create new branch**: `git branch <branchname>`
-+ **adding all files**: `git add -A`
-+ **commiting changes**: `git commit -am "<comment here>"`
-+ **adding origin**: `git remote add origin <https-url-of-repo>`
-+ **merging branches**: `git merge <where> <which-branch>`
-+ **switch to branch**: `git checkout <branchname>`
-+ **Pushing branch to github**: `git push -u origin <branch-name>`
+ eg. `git branch samir/feature/app/donateplusclient`
+
++ **clone a repo**:
+   `git clone <https-url-of-repo>`
++ **initialize git for a project**:
+  `git init`
++ **create new branch**:
+  `git branch <branchname>`
++ **adding all files**:
+  `git add -A`
++ **commiting changes**:
+  `git commit -am "<comment here>"`
++ **adding origin**:
+  `git remote add origin <https-url-of-repo>`
++ **merging branches**:
+  `git merge <where> <which-branch>`
++ **switch to branch**:
+  `git checkout <branchname>`
++ **Pushing branch to github**:
+  `git push -u origin <branch-name>`
     Note: Please do not push to main branch.
-+ **deleting local branch**: `git branch -D <branch-name>`
-+ **Pulling**: `git pull origin <branch-name>`
-+ **fetching**: `git fetch origin <branch-name>`
++ **deleting local branch**:
+  `git branch -D <branch-name>`
++ **Pulling**:
+  `git pull origin <branch-name>`
++ **fetching**:
+  `git fetch origin <branch-name>`
 
 ## Required Files
 
