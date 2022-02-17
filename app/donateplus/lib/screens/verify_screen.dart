@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({Key? key}) : super(key: key);
@@ -34,13 +35,18 @@ class _VerifyScreenState extends State<VerifyScreen> {
       await user.getIdToken().then((String _token) async {
         debugPrint(_token);
         await http.post(Uri.parse(baseUrl + "/login"),
-            body: {"token": _token}).then((_res) {
+            body: {"token": _token}).then((_res) async {
           var result = jsonDecode(_res.body);
 
           if (result["status"] == 11) {
             Navigator.of(context).pushNamed("/register");
           } else if (result["status"] == 1) {
-            Navigator.of(context).pushNamed("/home");
+            SharedPreferences sf = await SharedPreferences.getInstance();
+            await sf.setBool("isloginned", true);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              "/home",
+              (route) => true,
+            );
           } else {
             printerror(context,
                 title: "Login Error",
@@ -53,10 +59,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
           Provider.of<LoadingProvider>(context, listen: false)
               .changeisloading(false);
 
-          printerror(context,
-              title: "Internet Connection Error",
-              desc:
-                  "Please make sure you are connected to the internet and try again");
+          printerror(context, title: "Error", desc: e.toString());
         });
       }).catchError((e) {
         // error in retriving token
@@ -172,8 +175,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
               Consumer<LoadingProvider>(
                 builder: (context, value, child) => (value.loading)
                     ? const Center(
-                        child: SizedBox(
-                          child: CircularProgressIndicator(),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
                       )
                     : Hero(

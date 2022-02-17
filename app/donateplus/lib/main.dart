@@ -1,3 +1,4 @@
+import 'package:donateplus/checkloginedpage.dart';
 import 'package:donateplus/screens/home_screen.dart';
 import 'package:donateplus/screens/login_page.dart';
 import 'package:donateplus/screens/register_screen.dart';
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) => const LoginPage(),
+        "/": (context) => const CheckLogginedPage(),
+        "/login": (context) => const LoginPage(),
         "/verify": (context) => const VerifyScreen(),
         "/register": (context) => const RegisterScreen(),
-        "home": (context) => const HomeScreen(),
+        "/home": (context) => const HomeScreen(),
       },
     );
   }

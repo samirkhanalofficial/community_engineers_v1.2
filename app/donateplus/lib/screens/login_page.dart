@@ -28,7 +28,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
-              child: Image.asset("assets/logo.png"),
+              child: Hero(
+                tag: "logo",
+                child: Material(
+                  child: Image.asset("assets/logo.png"),
+                ),
+              ),
             ),
             const SizedBox(
               height: 50,
@@ -91,8 +96,11 @@ class _LoginPageState extends State<LoginPage> {
             Consumer<LoadingProvider>(
               builder: (context, value, child) => (value.loading)
                   ? const Center(
-                      child: SizedBox(
-                        child: CircularProgressIndicator(),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     )
                   : Hero(

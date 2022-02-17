@@ -1,7 +1,7 @@
 import firebase_admin
 from flask import Flask
 from routes import login,register,index
-from routes.bloodbank import adminregister,adminlogin
+from routes.bloodbank import adminregister,adminlogin,getbloodcount,updatebloodcount
 app = Flask(__name__)
 #initializing firebase
 defaultapp = firebase_admin.initialize_app()
@@ -19,5 +19,8 @@ app.register_blueprint(register.register)
 #admin routes
 app.register_blueprint(adminregister.adminregister)
 app.register_blueprint(adminlogin.adminlogin)
-app.run(port=80,debug=True)
+app.register_blueprint(getbloodcount.getbloodcount)
+app.register_blueprint(updatebloodcount.updatebloodcount)
+
+app.run(host="192.168.1.90",port=80,debug=True)
 
