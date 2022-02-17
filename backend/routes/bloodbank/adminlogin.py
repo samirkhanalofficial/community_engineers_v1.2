@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Blueprint,request
 from functions import getdatabaseurl
-from hashlib import md5
+from hashlib import md5, sha256
 adminlogin=Blueprint("adminlogin",__name__)
 
 @adminlogin.route("/admin/login",methods=["POST"])
@@ -20,7 +20,7 @@ def adminLogin():
         }
     email=data.get("email")
     password=data.get("password")
-    password=md5(password.encode()).hexdigest()
+    password=sha256(password.encode()).hexdigest().upper()
     database=sqlite3.connect(getdatabaseurl.getdatabaseurl())
     rows=database.execute("SELECT * FROM bloodbankdetails WHERE email = ? AND password = ? ", (email, password,))
     if len(rows.fetchall()) ==0:
@@ -31,7 +31,7 @@ def adminLogin():
     else:
         return {
         "status":1,
-        "message":"login sucessful."
+        "message":password
     }
     
 

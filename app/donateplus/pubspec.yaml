@@ -42,6 +42,8 @@ dependencies:
   provider:
   http:
   ionicons:
+  shared_preferences:
+  firebase_messaging: ^11.2.6
 
 dev_dependencies:
   flutter_test:

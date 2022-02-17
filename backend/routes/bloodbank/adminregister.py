@@ -1,4 +1,4 @@
-from hashlib import md5
+from hashlib import md5, sha256
 from flask import Blueprint, request
 import sqlite3
 from functions import getdatabaseurl
@@ -32,10 +32,10 @@ def adminRegister():
         return{"status": 0,
                "message": "Password must be at least 8 character long."
                }
-    password = md5(password.encode()).hexdigest()
+    password = sha256(password.encode()).hexdigest().upper()
     db = sqlite3.connect(getdatabaseurl.getdatabaseurl())
     adminemail = data.get('adminemail')
-    adminpassword = md5(data.get('adminpassword').encode()).hexdigest()
+    adminpassword = sha256(data.get('adminpassword').encode()).hexdigest()
     admins = db.execute(
         "SELECT * FROM admin WHERE email=? AND password=?", (adminemail, adminpassword,))
     if len(admins.fetchall()) == 0:
@@ -49,7 +49,7 @@ def adminRegister():
         db.commit()
         return {
             "status": 1,
-            "message": "Successfully added user."
+            "message": password
         }
     except:
         return {

@@ -21,8 +21,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  SharedPreferences? sf;
+  initializeshared() async {
+    sf = await SharedPreferences.getInstance();
+    if (sf!.getBool("remember") == true) {
+      Navigator.of(context).pushReplacementNamed("/dashboard");
+    }
+  }
+
+  @override
+  void initState() {
+    initializeshared();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: TextField(
                               controller: _email,
                               keyboardType: TextInputType.emailAddress,
+                              textInputAction: TextInputAction.next,
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 prefixIcon: Icon(Icons.alternate_email),
@@ -140,6 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: _password,
                                 obscureText: value.issobsecure,
                                 keyboardType: TextInputType.visiblePassword,
+                                textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   prefixIcon: const Icon(Icons.lock_outline),
@@ -214,18 +230,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       context,
                                                       listen: false)
                                                   .isremember) {
-                                                SharedPreferences sf =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                sf.setString(
-                                                    "email", _email.text);
-                                                sf.setString(
-                                                    "password", _password.text);
+                                                sf!.setBool("remember", true);
                                               }
+
+                                              sf!.setString(
+                                                  "email", _email.text);
+                                              sf!.setString("password",
+                                                  parsedres["message"]);
+
                                               await value
                                                   .changeisloading(false);
                                               await Navigator.of(context)
-                                                  .pushNamed("/dashboard");
+                                                  .pushReplacementNamed(
+                                                      "/dashboard");
                                             } else {
                                               await printerror(context,
                                                   title: "Login Error",

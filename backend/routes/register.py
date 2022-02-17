@@ -39,7 +39,7 @@ def registerpage():
             "status":0,
             "message":"Please enter a valid blood group."
         }
-    elif not datetime.strptime(dob,"%d/%m/%y"):
+    elif not datetime.strptime(dob,'%d/%m/%Y'):
         return {
             "status":0,
             "message":"Please enter a valid birthdate."
@@ -54,11 +54,17 @@ def registerpage():
             "status":0,
             "message":"Please enter a valid location."
         }
-    bday=datetime.strptime(dob,"%d/%m/%y")
     weight=int(weighttemp)
     db=sqlite3.connect(getdatabaseurl.getdatabaseurl())
     try:
-        db.execute("INSERT INTO userdetails (phone,name,bloodgroup,weight,disease,bday,location) VALUES(?,?,?,?,?,?,?)",(phone,name,bloodgroup,weight,disease,bday,location,))
+        rows = db.execute(
+        "select * from userdetails where phone = ?",(phone,))
+        if len(rows.fetchall()) !=0:
+            return {
+            "status": 0,
+            "message": "User Already Exists. Please login"
+        }
+        db.execute("INSERT INTO userdetails (phone,name,bloodgroup,weight,disease,dob,location) VALUES(?,?,?,?,?,?,?)",(phone,name,bloodgroup,weight,disease,dob,location,))
         db.commit()
         db.close()
         return {
@@ -69,6 +75,6 @@ def registerpage():
         db.close()
         return {
             "status" : 0,
-            "message":"Someting went wrong."
+            "message":"Registration error."
         }
         

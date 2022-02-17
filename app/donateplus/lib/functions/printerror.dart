@@ -6,6 +6,7 @@ printerror(BuildContext context,
     context: context,
     builder: (context) => AlertDialog(
       title: Text(title),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       content: Text(desc),
       actions: [
         TextButton(
