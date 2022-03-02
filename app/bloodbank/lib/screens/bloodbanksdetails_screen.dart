@@ -42,7 +42,12 @@ class _BloodBankDetailsScreenState extends State<BloodBankDetailsScreen> {
       Provider.of<LoadingProvider>(context, listen: false)
           .changeisloading(false);
       var parsedbody = jsonDecode(res.body);
-      debugPrint(parsedbody.toString());
+      if (parsedbody["status"] == 1) {
+        _location.text = parsedbody["datas"][0];
+        _phone.text = parsedbody["datas"][1];
+      } else {
+        throw parsedbody["message"];
+      }
     }).catchError((e) {
       Provider.of<LoadingProvider>(context, listen: false)
           .changeisloading(false);
@@ -112,7 +117,8 @@ class _BloodBankDetailsScreenState extends State<BloodBankDetailsScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(18)),
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 3),
                               child: TextField(
                                 controller: _location,
                                 keyboardType: TextInputType.text,
@@ -136,7 +142,8 @@ class _BloodBankDetailsScreenState extends State<BloodBankDetailsScreen> {
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(18)),
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 3),
                               child: TextField(
                                 controller: _phone,
                                 keyboardType: TextInputType.number,
@@ -151,6 +158,42 @@ class _BloodBankDetailsScreenState extends State<BloodBankDetailsScreen> {
                               ),
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                value.changeisloading(true);
+                                String? email = sf!.getString("email");
+                                String? password = sf!.getString("password");
+
+                                await http.post(
+                                    Uri.parse(baseUrl + "/admin/details"),
+                                    body: {
+                                      "email": email,
+                                      "password": password,
+                                      "method": "POST",
+                                      "location": _location.text,
+                                      "phone": _phone.text,
+                                    }).then((res) {
+                                  value.changeisloading(false);
+                                  var parsedbody = jsonDecode(res.body);
+                                  if (parsedbody["status"] == 1) {
+                                    printerror(context,
+                                        title: "Change Saved",
+                                        desc:
+                                            "Changes have been saved successfully");
+                                  } else {
+                                    throw parsedbody["message"];
+                                  }
+                                }).catchError((e) {
+                                  value.changeisloading(false);
+                                  printerror(context,
+                                      title: "Network Error",
+                                      desc: e.toString());
+                                });
+                              },
+                              child: const Text("Save Changes")),
                         ),
                       ],
                     ),
