@@ -1,4 +1,5 @@
 import 'package:bloodbank/functions/remember_provider.dart';
+import 'package:bloodbank/functions/bloodgroupprovider.dart';
 import 'package:bloodbank/screens/dashboard_screen.dart';
 import 'package:bloodbank/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: ((context) => RememberProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((context) => BloodGroupProvider()),
         ),
       ],
       child: MaterialApp(

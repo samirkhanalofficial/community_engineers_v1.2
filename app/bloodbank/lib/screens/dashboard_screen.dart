@@ -24,10 +24,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       "icon": Icons.account_circle_sharp,
     },
     {
-      "title": "Settings",
-      "icon": Icons.settings,
-    },
-    {
       "title": "Logout",
       "icon": Icons.logout_outlined,
     },
@@ -90,7 +86,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: const [
               BloodCountEditScreen(),
               BloodBankDetailsScreen(),
-              SettingsScreen(),
             ],
           ),
         )
