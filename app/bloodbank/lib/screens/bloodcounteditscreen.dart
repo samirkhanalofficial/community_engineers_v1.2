@@ -19,8 +19,13 @@ class BloodCountEditScreen extends StatefulWidget {
 
 class _BloodCountEditScreenState extends State<BloodCountEditScreen> {
   var fetchedata = {};
+  var temploading = true;
   String? email, password;
   fetchdata() async {
+    if (temploading == true) {
+      temploading = false;
+      await Future.delayed(const Duration(seconds: 1));
+    }
     Provider.of<LoadingProvider>(context, listen: false).changeisloading(true);
     SharedPreferences sf = await SharedPreferences.getInstance();
     email = sf.getString("email");
@@ -48,9 +53,7 @@ class _BloodCountEditScreenState extends State<BloodCountEditScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
-      fetchdata();
-    });
+    fetchdata();
     super.initState();
   }
 
@@ -140,56 +143,52 @@ class _BloodCountEditScreenState extends State<BloodCountEditScreen> {
                                                   ],
                                                 ),
                                               ),
-                                              if (fetchedata["datas"] != null)
-                                                for (int i = 0;
-                                                    i <
-                                                        fetchedata["datas"]!
-                                                            .length;
-                                                    i++)
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Container(
-                                                      color:
-                                                          Colors.grey.shade200,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: TextField(
-                                                          controller:
-                                                              TextEditingController()
-                                                                ..text = tempdata[
-                                                                            i][
-                                                                        "count"]
-                                                                    .toString(),
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            label: Text(
-                                                              tempdata[i][
-                                                                      "blood_group"]
+                                              for (int i = 0;
+                                                  i <
+                                                      fetchedata["datas"]!
+                                                          .length;
+                                                  i++)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    color: Colors.grey.shade200,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: TextField(
+                                                        controller:
+                                                            TextEditingController()
+                                                              ..text = tempdata[
+                                                                          i]
+                                                                      ["count"]
                                                                   .toString(),
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          label: Text(
+                                                            tempdata[i][
+                                                                    "blood_group"]
+                                                                .toString(),
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
                                                           ),
-                                                          onChanged: (val) {
-                                                            tempdata[i]
-                                                                    ["count"] =
-                                                                int.parse(val);
-                                                          },
                                                         ),
+                                                        onChanged: (val) {
+                                                          tempdata[i]["count"] =
+                                                              int.parse(val);
+                                                        },
                                                       ),
                                                     ),
                                                   ),
+                                                ),
                                               Consumer<LoadingProvider>(
                                                 builder: (_, value, __) =>
                                                     value.loading
@@ -294,7 +293,7 @@ class _BloodCountEditScreenState extends State<BloodCountEditScreen> {
               ],
             ),
             Consumer<LoadingProvider>(
-              builder: (_, value, __) => value.loading
+              builder: (_, value, __) => (value.loading)
                   ? SizedBox(
                       height: 500,
                       child: Center(
@@ -303,33 +302,36 @@ class _BloodCountEditScreenState extends State<BloodCountEditScreen> {
                         size: 50,
                       )),
                     )
-                  : Wrap(
-                      children: [
-                        for (int i = 0; i < fetchedata["datas"].length; i++)
-                          SizedBox(
-                            width: 200,
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(children: [
-                                  Center(
-                                    child: Text(
-                                      fetchedata["datas"][i]["blood_group"],
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                  : (fetchedata["datas"] == null)
+                      ? const SizedBox.shrink()
+                      : Wrap(
+                          children: [
+                            for (int i = 0; i < fetchedata["datas"].length; i++)
+                              SizedBox(
+                                width: 200,
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(children: [
+                                      Center(
+                                        child: Text(
+                                          fetchedata["datas"][i]["blood_group"],
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(fetchedata["datas"][i]
+                                                    ["count"]
+                                                .toString() +
+                                            " UNITS"),
+                                      ),
+                                    ]),
                                   ),
-                                  Center(
-                                    child: Text(fetchedata["datas"][i]["count"]
-                                            .toString() +
-                                        " UNITS"),
-                                  ),
-                                ]),
-                              ),
-                            ),
-                          )
-                      ],
-                    ),
+                                ),
+                              )
+                          ],
+                        ),
             ),
           ],
         ),

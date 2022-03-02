@@ -14,7 +14,6 @@ def getBloodCount():
             }
     email=data.get("email")
     password=data.get("password")
-    print(email+password)
     try:
         db=sqlite3.connect(getdatabaseurl.getdatabaseurl())
         rows=db.execute("SELECT * FROM bloodbankdetails WHERE email=? AND password=?",(email,password,)).fetchall()
