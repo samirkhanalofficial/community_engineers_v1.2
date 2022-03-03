@@ -23,11 +23,20 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final DateTime _today = DateTime.now();
   String _token = "";
-  TextEditingController _name = TextEditingController(),
+  final TextEditingController _name = TextEditingController(),
       _weight = TextEditingController(),
       _location = TextEditingController(),
       _disease = TextEditingController();
-  List<String> _bloodgroup = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+  final List<String> _bloodgroup = [
+    "A+",
+    "A-",
+    "B+",
+    "B-",
+    "AB+",
+    "AB-",
+    "O+",
+    "O-"
+  ];
   settoken() async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     var user = _auth.currentUser;
