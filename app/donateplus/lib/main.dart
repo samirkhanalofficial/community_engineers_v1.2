@@ -3,6 +3,7 @@
 import 'package:donateplus/checkloginedpage.dart';
 import 'package:donateplus/screens/home_screen.dart';
 import 'package:donateplus/screens/login_page.dart';
+import 'package:donateplus/screens/notif_screen.dart';
 import 'package:donateplus/screens/register_screen.dart';
 import 'package:donateplus/screens/verify_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +27,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -56,6 +58,13 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) {
+        Navigator.pushNamed(context, "/notifscreen");
+      }
+    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
@@ -83,21 +92,7 @@ class _MyAppState extends State<MyApp> {
       debugPrint('A new onMessageOpenedApp event was published!');
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
-      // if (notification != null && android != null) {
-      //   showDialog(
-      //       context: context,
-      //       builder: (_) {
-      //         return AlertDialog(
-      //           title: Text(notification.title!),
-      //           content: SingleChildScrollView(
-      //             child: Column(
-      //               crossAxisAlignment: CrossAxisAlignment.start,
-      //               children: [Text(notification.body!)],
-      //             ),
-      //           ),
-      //         );
-      //       });
-      // }
+      Navigator.pushNamed(context, "/notifscreen");
     });
   }
 
@@ -115,6 +110,7 @@ class _MyAppState extends State<MyApp> {
         "/verify": (context) => const VerifyScreen(),
         "/register": (context) => const RegisterScreen(),
         "/home": (context) => const HomeScreen(),
+        "/notifscreen": (context) => NotifScreen(),
       },
     );
   }
