@@ -42,7 +42,7 @@ void main() async {
       const InitializationSettings(
           android: AndroidInitializationSettings('@mipmap/ic_launcher')),
       onSelectNotification: (a) {
-    debugPrint(a);
+    debugPrint("hello samir");
   });
   runApp(const MyApp());
 }
