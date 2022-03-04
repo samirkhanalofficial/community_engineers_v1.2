@@ -27,6 +27,9 @@ def adminrequestBlood():
     datas = rows.fetchall()
     if len(datas) == 1:
         message_title = bloodgroup+" Blood Needed"
+        topic=bloodgroup.replace("+","plus")
+        topic=topic.replace("-","minus")
+        print(topic)
         message_body = "The blood bank at " + datas[0][3]+" is requesting for blood."
         try:
             message = messaging.Message(
@@ -34,7 +37,7 @@ def adminrequestBlood():
                     title=message_title,
                     body=message_body
                 ),
-                topic="all",
+                topic=str(topic),
                 data={
                     "blood_group":bloodgroup,
                     "contact":datas[0][4],

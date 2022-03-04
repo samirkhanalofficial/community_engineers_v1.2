@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -19,15 +20,20 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  var datas = message.data;
+
   await Firebase.initializeApp();
   debugPrint('A bg message just showed up :  ${message.messageId}');
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyB7aVnhIEnHjURWwj-da6xGuNgKaGLlnew",
+          appId: "1:132373144901:android:887db34fb586c39e768a2c",
+          messagingSenderId: "132373144901",
+          projectId: "donateplus-cd4d5"));
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -39,12 +45,29 @@ void main() async {
     sound: true,
   );
   flutterLocalNotificationsPlugin.initialize(
-      const InitializationSettings(
-          android: AndroidInitializationSettings('@mipmap/ic_launcher')),
-      onSelectNotification: (a) {
-    debugPrint("hello samir");
-  });
-  runApp(const MyApp());
+    const InitializationSettings(
+        android: AndroidInitializationSettings('@mipmap/ic_launcher')),
+  );
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => const MyApp(),
+        "/login": (context) => const LoginPage(),
+        "/verify": (context) => const VerifyScreen(),
+        "/register": (context) => const RegisterScreen(),
+        "/home": (context) => const HomeScreen(),
+        "/notifscreen": (context) => const NotifScreen(),
+      },
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -55,63 +78,63 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  void _handleMessage(RemoteMessage message) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => NotifScreen(
+              message: message,
+            )));
+  }
+
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      debugPrint("onMessageOpened");
+      _handleMessage(message);
+    });
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+  }
+
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? message) {
-      if (message != null) {
-        Navigator.pushNamed(context, "/notifscreen");
-      }
-    });
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    setupInteractedMessage();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
       var datas = message.data;
-      if (datas["blood_group"] == "A+") {
-        if (android != null) {
-          flutterLocalNotificationsPlugin.show(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  color: Colors.blue,
-                  playSound: true,
-                  icon: '@mipmap/ic_launcher',
-                  styleInformation: BigTextStyleInformation(notification.body!),
-                ),
-              ));
-        }
+      if (android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+                styleInformation: BigTextStyleInformation(notification.body!),
+              ),
+            ));
       }
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('A new onMessageOpenedApp event was published!');
-      RemoteNotification notification = message.notification!;
-      AndroidNotification android = message.notification!.android!;
-      Navigator.pushNamed(context, "/notifscreen");
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      initialRoute: "/",
-      routes: {
-        "/": (context) => const CheckLogginedPage(),
-        "/login": (context) => const LoginPage(),
-        "/verify": (context) => const VerifyScreen(),
-        "/register": (context) => const RegisterScreen(),
-        "/home": (context) => const HomeScreen(),
-        "/notifscreen": (context) => NotifScreen(),
-      },
-    );
+    return const CheckLogginedPage();
   }
 }

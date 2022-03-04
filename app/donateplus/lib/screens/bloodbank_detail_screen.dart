@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BloodBankDetailScreen extends StatefulWidget {
-  var datas;
-  BloodBankDetailScreen({Key? key, this.datas}) : super(key: key);
+  final datas;
+  const BloodBankDetailScreen({Key? key, this.datas}) : super(key: key);
 
   @override
   State<BloodBankDetailScreen> createState() => _BloodBankDetailScreenState();
@@ -76,7 +76,7 @@ class _BloodBankDetailScreenState extends State<BloodBankDetailScreen> {
           alignment: WrapAlignment.spaceEvenly,
           children: [
             for (int j = 0; j < bloodgroups.length; j++)
-              Container(
+              SizedBox(
                 width: 150,
                 height: 150,
                 child: Card(

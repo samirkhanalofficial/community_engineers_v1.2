@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String tempbloodgroup = '';
   final List<String> _bloodgroup = [
     "A+",
     "A-",
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences sf = await SharedPreferences.getInstance();
     sf.setBool("isloginned", false);
     FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseMessaging.instance.unsubscribeFromTopic(tempbloodgroup);
     await _auth.signOut();
 
     Navigator.of(context).pushReplacementNamed("/");
@@ -56,9 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
     "test"
   ];
   var aboutme = [];
-  subscribe() async {
-    await FirebaseMessaging.instance.subscribeToTopic("all");
-  }
 
   firstget() {
     getbloodbanks();
@@ -82,11 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(const Duration(seconds: 1));
     await http.post(Uri.parse(baseUrl + "/aboutme"), body: {
       "token": token.toString(),
-    }).then((res) {
+    }).then((res) async {
       var pbody = jsonDecode(res.body);
       if (pbody["status"] == 1) {
         aboutme = pbody["datas"];
-
+        tempbloodgroup = aboutme[3].toString().replaceAll('+', 'plus');
+        tempbloodgroup = tempbloodgroup.toString().replaceAll('-', 'minus');
+        await FirebaseMessaging.instance.subscribeToTopic(tempbloodgroup);
         setState(() {});
         debugPrint(pbody["datas"].toString());
       } else {
@@ -100,9 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    subscribe();
     firstget();
     getaboutme();
+
     super.initState();
   }
 
@@ -181,9 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                     ],
                   ),
-                  (aboutme.length > 0)
+                  (aboutme.isNotEmpty)
                       ? ListView(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           children: [
                             for (int i = 0; i < aboutme.length; i++)
@@ -221,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                   child: Builder(builder: (context) {
-                    return Container(
+                    return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
@@ -317,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
+                            child: SizedBox(
                               height: 50,
                               width: MediaQuery.of(context).size.width,
                               child: Consumer<LoadingProvider>(
@@ -333,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     : ElevatedButton(
                                         onPressed: () {
                                           loading.changeisloading(true);
-                                          var blood_group =
+                                          var bloodgroup =
                                               Provider.of<BloodGroupProvider>(
                                                       context,
                                                       listen: false)
@@ -344,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 "token": token,
                                                 "phone": _phone,
                                                 "location": _location,
-                                                "bloodgroup": blood_group,
+                                                "bloodgroup": bloodgroup,
                                               }).then((res) {
                                             var pbody = jsonDecode(res.body);
                                             if (pbody["status"] == 1) {
