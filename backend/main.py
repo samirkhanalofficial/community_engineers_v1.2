@@ -29,5 +29,5 @@ app.register_blueprint(updatebloodcount.updatebloodcount)
 app.register_blueprint(admindetails.admindetails)
 app.register_blueprint(adminrequestblood.adminrequestblood)
 if __name__ == "__main__":
-    app.run()
+    app.run(port=port)
 
