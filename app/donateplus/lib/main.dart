@@ -78,10 +78,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  void _handleMessage(RemoteMessage message) {
+  bool ismessageservice = false;
+  void _handleMessage(RemoteMessage? message) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => NotifScreen(
-              message: message,
+              message: message!,
             )));
   }
 
@@ -90,9 +91,7 @@ class _MyAppState extends State<MyApp> {
     // a terminated state.
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
+    debugPrint("checking foreground messages");
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }

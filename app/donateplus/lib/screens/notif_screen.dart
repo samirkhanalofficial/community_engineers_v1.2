@@ -12,6 +12,11 @@ class NotifScreen extends StatefulWidget {
 
 class _NotifScreenState extends State<NotifScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     RemoteMessage message = widget.message;
     debugPrint(widget.message.toString());

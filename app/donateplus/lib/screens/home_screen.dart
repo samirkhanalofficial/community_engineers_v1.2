@@ -48,14 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   var tempdata = [
-    "age",
+    "id",
     "phone",
     "name",
     "blood group",
     "weight",
+    "Diseases",
     "birthdate",
     "location",
-    "test"
   ];
   var aboutme = [];
 
@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           children: [
-                            for (int i = 0; i < aboutme.length; i++)
+                            for (int i = 1; i < aboutme.length; i++)
                               ListTile(
                                 title: Text(tempdata[i].toString()),
                                 subtitle: Text(aboutme[i].toString()),
