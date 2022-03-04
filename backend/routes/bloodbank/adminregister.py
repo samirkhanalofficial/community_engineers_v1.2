@@ -5,7 +5,7 @@ from functions import getdatabaseurl
 adminregister = Blueprint('adminregister', __name__)
 
 
-@adminregister.route('/admin/adminregister')
+@adminregister.route('/admin/adminregister',methods=["POST"])
 def adminRegister():
     # email,password,location,phone,adminemail,adminpass,
     data = request.form
@@ -35,7 +35,7 @@ def adminRegister():
     password = sha256(password.encode()).hexdigest().upper()
     db = sqlite3.connect(getdatabaseurl.getdatabaseurl())
     adminemail = data.get('adminemail')
-    adminpassword = sha256(data.get('adminpassword').encode()).hexdigest()
+    adminpassword = sha256(data.get('adminpassword').encode()).hexdigest().upper()
     admins = db.execute(
         "SELECT * FROM admin WHERE email=? AND password=?", (adminemail, adminpassword,))
     if len(admins.fetchall()) == 0:
@@ -43,13 +43,18 @@ def adminRegister():
             "status": 0,
             "message": "Incorrect admin login details."
         }
+    if len(db.execute("SELECT * FROM bloodbankdetails WHERE email=?",(email,)).fetchall())!=0:
+        return {
+            "status": 0,
+            "message": "This email already exists."
+        }
     try:
         db.execute("INSERT INTO bloodbankdetails (email,password,location,contact) VALUES(?,?,?,?)",
                    (email, password, location, phone,))
         db.commit()
         return {
             "status": 1,
-            "message": password
+            "message": "Blood bank user added successfully"
         }
     except:
         return {

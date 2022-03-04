@@ -288,6 +288,17 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          Positioned(
+            bottom: 8,
+            right: 8,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () => Navigator.of(context).pushNamed('/register'),
+                child: const Text("Admin Panel"),
+              ),
+            ),
+          ),
         ],
       ),
     );

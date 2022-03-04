@@ -2,6 +2,7 @@ import 'package:bloodbank/functions/remember_provider.dart';
 import 'package:bloodbank/functions/bloodgroupprovider.dart';
 import 'package:bloodbank/screens/dashboard_screen.dart';
 import 'package:bloodbank/screens/login_screen.dart';
+import 'package:bloodbank/screens/registerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => const LoginScreen(),
           "/dashboard": ((context) => const DashboardScreen()),
+          "/register": (context) => const RegisterScreen(),
         },
       ),
     );
