@@ -28,6 +28,6 @@ app.register_blueprint(getbloodcount.getbloodcount)
 app.register_blueprint(updatebloodcount.updatebloodcount)
 app.register_blueprint(admindetails.admindetails)
 app.register_blueprint(adminrequestblood.adminrequestblood)
-
-app.run(host=host,port=port,debug=True)
+if __name__ == "__main__":
+    app.run()
 

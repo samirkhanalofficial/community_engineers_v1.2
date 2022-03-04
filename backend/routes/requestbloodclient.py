@@ -44,17 +44,20 @@ def requestBloodClient():
     message_body = datas[0][2]+" is requesting for blood group " + \
         bloodgroup + " at " + location
     try:
+        topic=bloodgroup.replace("+","plus")
+        topic=topic.replace("-","minus")
         message = messaging.Message(
             notification=messaging.Notification(
                 title=message_title,
                 body=message_body
             ),
-            topic="all",
+            topic=str(topic),
             data={
                 "blood_group": bloodgroup,
                 "contact": phone,
                 "location": location,
-                "type": "bloodbank"
+                "type": "client",
+                "name":datas[0][2],
             }
         )
         messaging.send(message)

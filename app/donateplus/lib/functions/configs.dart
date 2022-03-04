@@ -1,1 +1,1 @@
-const baseUrl = "https://donateplus.loca.lt/";
+const baseUrl = "https://donateplus.loca.lt";
