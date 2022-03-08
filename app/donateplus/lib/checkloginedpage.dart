@@ -1,4 +1,5 @@
 import 'package:donateplus/screens/home_screen.dart';
+import 'package:donateplus/screens/login_page.dart';
 import 'package:donateplus/screens/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _CheckLogginedPageState extends State<CheckLogginedPage> {
   @override
   Widget build(BuildContext context) {
     return islogged != null
-        ? (islogged == true ? const HomeScreen() : const RegisterScreen())
+        ? (islogged == true ? const HomeScreen() : const LoginPage())
         : Scaffold(
             body: Stack(
               children: [
