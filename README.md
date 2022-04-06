@@ -32,7 +32,7 @@ open backend folder in terminal and then follow these steps:
         ```.\.venv\Scripts\activate.sh```
 4. Use this command to install all the required package
     ```pip install -r requirements.txt```
-5. Set enviroment variable of name `GOOGLE_APPLICATION_CREDENTIALS` with the path of the firebase admin config file (JSON) of our project.
+5. change the path of `pathtocredential` variable in `main.py` with the path of the firebase admin config file (JSON) of our project.
 6. now Run this command to run backend server
    ```python main.py```
 

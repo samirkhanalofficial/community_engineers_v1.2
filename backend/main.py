@@ -1,12 +1,15 @@
 import firebase_admin
+from firebase_admin import credentials
 from flask import Flask
 from routes import login,register,index,getbloodbanksdetails,aboutme,requestbloodclient
 from routes.bloodbank import adminregister,adminlogin,getbloodcount,updatebloodcount,admindetails,adminrequestblood
 app = Flask(__name__)
 host="127.0.0.1"
 port=80
+pathtocredential="D:/donate-plus-admin.json"
 #initializing firebase
-defaultapp = firebase_admin.initialize_app()
+cred = credentials.Certificate(pathtocredential)
+firebase_admin.initialize_app(cred)
 
 # make environment variable of name: GOOGLE_APPLICATION_CREDENTIALS
 # choose the json file i provided in facebook (don't copy that file in the community
